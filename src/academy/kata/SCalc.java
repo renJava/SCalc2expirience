@@ -1,9 +1,15 @@
 package academy.kata;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
-public class Scalc {
+//  "654Ъiёtgh" + "e47и4ergj"     //
+//    "ejrgЁ12" - "kegjЫ123"     //
+//    "ЫkegjЫ123ы" - "kegjЫ123"     //
+//    "ehjrg12" *   9           //
+//      "e47и4ergj" / 10       //
+
+
+public class SCalc {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         String announcement = """
@@ -47,7 +53,7 @@ public class Scalc {
             validateS = true;
             trimExpressionS = expression.trim();
 
-            operandSE = Arrays.toString(trimExpressionS.split("\"\\w*\""));
+//            operandSE = Arrays.toString(trimExpressionS.split("\"\\w*\""));
 
             int lengthT = trimExpressionS.length();     //Запоминаем позиции кавычек в теле выражения
             int i = 0;
@@ -61,16 +67,19 @@ public class Scalc {
 
             operandS1 = trimExpressionS.substring(1, quotePosition[0]);
             operandS2 = trimExpressionS.substring(quotePosition[1]+1, lengthT-1);
-            sum = operandS1 + operandS2;
-            System.out.printf("\nРезультат сложения: "+"\"" + sum + "\""+"\n\n");
 
             if (trimExpressionS.indexOf('+') > -1) {
                 operator = "+";
+                sum = operandS1 + operandS2;
+                System.out.printf("\nРезультат сложения: "+"\"" + sum + "\""+"\n\n");
 
+            } else {operator = "-";
+                var substBegin = operandS1.indexOf(operandS2);
+                return (substBegin > -1) ? operandS1.substring(0, substBegin) +
+                        operandS1.substring(substBegin + operandS2.length()) : operandS1;
+            }
 
-            } else operator = "-";
-
-            quoteArrayLength = quotePosition.length;
+//            quoteArrayLength = quotePosition.length();
         }
         else validateS = false;
 
@@ -87,7 +96,7 @@ public class Scalc {
 
         if (validateS || validateM) {
             validateControlPrint = "Правильный ввод";
-            System.out.println("validateS: " + validateS + ", trimExpressionS: " + trimExpressionS + ", operandSE: " + operandSE +
+            System.out.println("validateS: " + validateS + ", trimExpressionS: " + trimExpressionS + ", operandSE: " + //operandSE +
                     "\nvalidateM: " + validateM + ", trimExpressionM: " + trimExpressionM + "quoteArrayLength: " + quoteArrayLength + "\n");
 
 
@@ -104,4 +113,62 @@ public class Scalc {
 
     }
 
+/*
+    sPlus {
+        public String action(String a, String b) {      //Сложение
+            return (a.length() <= 10 || b.length() <= 10) ? a + b :
+                    "Ошибка ввода: длина строчных слагаемых - \n" +
+                            "не более 10 символов (без учета кавычек)";
+        }
+        // При Сложении - Конкатенация строк
+    }
+*/
+
+
+
+    public enum Operation {
+/*
+        sPlus {
+            public String action(String a, String b) {      //Сложение
+                return (a.length() <= 10 || b.length() <= 10) ? a + b :
+                        "Ошибка ввода: длина строчных слагаемых - \n" +
+                                "не более 10 символов (без учета кавычек)";
+            }
+        // При Сложении - Конкатенация строк
+        },
+*/
+
+        sMinus {
+            public String action(String a, String b) {       //Вычитание
+                if (a.length() > 10 || b.length() > 10) {
+                    return "Ошибка ввода: длина делимой строки - \n" +
+                            "не более 10 символов (без учета кавычек), а делитель - целое не больше 10";
+                }
+                var subst = a.indexOf(b);
+                return (subst > -1) ? a.substring(0, subst - 1) + a.substring(subst + b.length()) : a;
+            }
+        // При Вычетании - вырезаем найденное слово из строки или возвращаем уменьшаемое обратно
+        },
+
+        sMultiple {
+            public String action(String a, int b) {      //Умножение
+                if (a.length() > 10 || b > 10) {
+                    return "Ошибка ввода: множимое - строка не более 10 символов, \n" +
+                            "без учёта кавычек, а множитель - целое не больше 10";
+                }
+                String vMultiple = a.repeat(b);
+                return (vMultiple.length() <= 40) ? vMultiple : vMultiple.substring(0, 39) + "...";
+            }
+        // При Умножении - повторяем заданное слово b раз и обрезаем результат на 40 символе
+        },
+
+        sDivision {
+            public String action(String a, int b) {       //Деление
+                return (a.length() <= 10 || b <= 10) ? a.substring(0, a.length() / b - 1) :
+                        "Ошибка ввода: длина делимой строки - \n" +
+                                "не более 10 символов (без учета кавычек), а делитель - целое не больше 10";
+            }
+        // При Делении - делим длину строки на b и получаем целое число знаков в результате
+        };
+    }
 }
