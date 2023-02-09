@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/JavaCalcS.iml" filepath="$PROJECT_DIR$/JavaCalcS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RenJavaCalcS.iml" filepath="$PROJECT_DIR$/RenJavaCalcS.iml" />
     </modules>
   </component>
 </project>
