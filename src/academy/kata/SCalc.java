@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 //  "654Ъiёtgh" + "e47и4ergj"     //
 //    "ejrgЁ12" - "kegjЫ123"     //
-//    "ЫkegjЫ123ы" - "kegjЫ123"     //
+//    "ЫkegjЫ12Йы" - "kegjЫ12"     //
 //    "ehjrg12" *   9           //
 //      "e47и4ergj" / 10       //
 
@@ -15,7 +15,7 @@ public class SCalc {
         String announcement = """
                 Вводите строчные операнды (не более 10 символов каждый) и строго в двойных кавычках.
                 Первый операнд - всегда строчный, не более 10 символов, например, "123456789Ё".
-                Второй - как первый, только при сложении или вычитании.
+                Второй - как первый, но только при сложении или вычитании.
                 При умножении или делении второй операнд - натуральное число <=10 - без кавычек:
                 """;
         System.out.println(announcement);
@@ -32,102 +32,133 @@ public class SCalc {
 
     //    Задаем все переменные метода.
     public static String isValidate  (String expression) {
-        boolean validateS;
-        boolean validateM;
+        boolean validateSC;
+        boolean validateMD;
         String validateControlPrint;
-        String trimExpressionS = "";
-        String trimExpressionM = "";
-        String operator = "";
-        String operandSE = "";
-        String operandS1 = "";
-        String operandS2 = "";
-        String sum = "";
-        String operandM = "";
-        String operandM1 = "";
-        String operandM2 = "";
+        String trimExpressionSC = "";
+        String trimExpressionMD = "";
+        String operandSC1 = "";
+        String operandSC2 = "";
+        String operandMD1 = "";
+        int operandMD2 = 0;
         int[] quotePosition = new int[2];
-        int quoteArrayLength = 0;
+        int lengthT;
 
         if (expression.matches(
                 "^ *\"[a-zA-Z_0-9а-яА-ЯёЁ]{1,10}\" *[+,-] *\"[a-zA-Z_0-9а-яА-ЯёЁ]{1,10}\" *")) {
-            validateS = true;
-            trimExpressionS = expression.trim();
+            validateSC = true;
+            trimExpressionSC = expression.trim();
 
-//            operandSE = Arrays.toString(trimExpressionS.split("\"\\w*\""));
-
-            int lengthT = trimExpressionS.length();     //Запоминаем позиции кавычек в теле выражения
-            int i = 0;
+            lengthT = trimExpressionSC.length();
+            int i = 0;                                      //Запоминаем позиции кавычек в теле выражения
             int j = 0;
-            while (i < (lengthT-1) && j < 2) {
+            while (i < (lengthT-1) && j <= 1) {
                 i++;
-                if (trimExpressionS.charAt(i) == '\"') {
+                if (trimExpressionSC.charAt(i) == '\"') {
                     quotePosition[j] = i; j++;
                 }
             }
 
-            operandS1 = trimExpressionS.substring(1, quotePosition[0]);
-            operandS2 = trimExpressionS.substring(quotePosition[1]+1, lengthT-1);
+            operandSC1 = trimExpressionSC.substring(1, quotePosition[0]);
+            operandSC2 = trimExpressionSC.substring(quotePosition[1]+1, lengthT-1);
 
-            if (trimExpressionS.indexOf('+') > -1) {
-                operator = "+";
-                sum = operandS1 + operandS2;
-                System.out.printf("\nРезультат сложения: "+"\"" + sum + "\""+"\n\n");
+            if (trimExpressionSC.indexOf('+') > -1) {
+                System.out.println("\nРезультат сложения: "+"\"" + sPlus(operandSC1, operandSC2) + "\""+"\n\n");
 
-            } else {operator = "-";
-                var substBegin = operandS1.indexOf(operandS2);
-                return (substBegin > -1) ? operandS1.substring(0, substBegin) +
-                        operandS1.substring(substBegin + operandS2.length()) : operandS1;
+            } else {
+                System.out.println("\nРезультат вычитания: "+"\"" + sCut(operandSC1, operandSC2) + "\""+"\n\n");
             }
-
-//            quoteArrayLength = quotePosition.length();
         }
-        else validateS = false;
+
+
+        else validateSC = false;
+
+
+
+                            //        Умножение и деление
+
 
         if (expression.matches(
                 "^ *\"[a-zA-Z_0-9а-яА-ЯёЁ]{1,10}\" *[*,/] *(?:[1-9]|10) *$")) {
-            validateM = true;
-            trimExpressionM = expression.trim();
+            validateMD = true;
+            trimExpressionMD = expression.trim();
 
-            if (trimExpressionS.indexOf('*') > -1) operator = "*"; else operator = "/";
+
+            lengthT = trimExpressionMD.length();
+            int i = 0;                                      //Запоминаем позиции кавычек в теле выражения
+            int j = 0;
+            while (i < (lengthT-1) && j == 0) {
+                i++;
+                if (trimExpressionMD.charAt(i) == '\"') {
+                    quotePosition[j] = i; j++;
+                }
+            }
+            operandMD1 = trimExpressionMD.substring(1, quotePosition[0]);
+            operandMD2 = Integer.parseInt(trimExpressionMD.substring(lengthT-2, lengthT).trim());
+
+            if (trimExpressionMD.indexOf('*') > -1) {
+                System.out.println("\nРезультат умножения: "+"\"" + sMultiple(operandMD1, operandMD2) + "\""+"\n\n");
+
+            }
+
+            else {
+                System.out.println("\nРезультат деления: "+"\"" + sDivision(operandMD1, operandMD2) + "\""+"\n\n");
+            }
 
         }
-        else validateM = false;
+        else validateMD = false;
 
 
-        if (validateS || validateM) {
+//                Контроль ввода и промежуточных вычислений:
+
+        if (validateSC || validateMD) {
             validateControlPrint = "Правильный ввод";
-            System.out.println("validateS: " + validateS + ", trimExpressionS: " + trimExpressionS + ", operandSE: " + //operandSE +
-                    "\nvalidateM: " + validateM + ", trimExpressionM: " + trimExpressionM + "quoteArrayLength: " + quoteArrayLength + "\n");
+            System.out.println("trimExpressionSC: " + trimExpressionSC + "trimExpressionMD: " + trimExpressionMD + "\n");
 
 
-            System.out.println("\nvalidateM: " + validateM + ", trimExpressionM: " + trimExpressionM + "\n");
+            System.out.println("\nvalidateSC: " + validateSC + ", operandSC1: " + operandSC1 +
+                    ", operandSC2: " + operandSC2 + "\n");
+            System.out.println("\nvalidateMD: " + validateMD + ", operandMD1: " + operandMD1 +
+                    ", operandMD2: " + operandMD2 + "\n");
 
-//            Arrays.stream(operand).forEach((e) -> {System.out.println("Оператор: "+e); });
-//            for (int dQP: quotePosition) {
-//                System.out.printf("Кавычка: "+ dQP +",  ");
-//            }
         }
+
         else {
-            validateControlPrint = "!!!Неправильный ввод!!!";}
+            validateControlPrint = "\n!!!Неправильный ввод!!!";}
         return validateControlPrint;
 
     }
 
-/*
-    sPlus {
-        public String action(String a, String b) {      //Сложение
-            return (a.length() <= 10 || b.length() <= 10) ? a + b :
-                    "Ошибка ввода: длина строчных слагаемых - \n" +
-                            "не более 10 символов (без учета кавычек)";
+
+//            Работающие методы
+        public static String sPlus(String a, String b) {      //Сложение
+            return a + b;
         }
         // При Сложении - Конкатенация строк
-    }
-*/
+
+        public static String sCut(String a, String b) {       //Вычитание
+            var substBegin = a.indexOf(b);
+            return (substBegin > -1) ? a.substring(0, substBegin) +
+                    a.substring(substBegin + b.length()) : a;
+        }
+        // При Вычетании - вырезаем найденное слово из строки или возвращаем уменьшаемое обратно
+
+        public static String sMultiple(String a, int b) {      //Умножение
+            String sMultiple = a.repeat(b);
+            return (sMultiple.length() <= 40) ? sMultiple : sMultiple.substring(0, 40) + "...";
+        }
+        // При Умножении - повторяем заданное слово b раз и обрезаем результат после 40-го символа
+
+        public static String sDivision(String a, int b) {       //Деление
+            return (a.length()>=b)? a.substring(0, a.length() / b): "Делитель больше делимого";
+        }
 
 
 
-    public enum Operation {
-/*
+//    Донор МЕТОДОВ
+
+/*    public enum Operation {
+
         sPlus {
             public String action(String a, String b) {      //Сложение
                 return (a.length() <= 10 || b.length() <= 10) ? a + b :
@@ -136,8 +167,6 @@ public class SCalc {
             }
         // При Сложении - Конкатенация строк
         },
-*/
-
         sMinus {
             public String action(String a, String b) {       //Вычитание
                 if (a.length() > 10 || b.length() > 10) {
@@ -150,17 +179,19 @@ public class SCalc {
         // При Вычетании - вырезаем найденное слово из строки или возвращаем уменьшаемое обратно
         },
 
+
         sMultiple {
             public String action(String a, int b) {      //Умножение
                 if (a.length() > 10 || b > 10) {
                     return "Ошибка ввода: множимое - строка не более 10 символов, \n" +
                             "без учёта кавычек, а множитель - целое не больше 10";
                 }
-                String vMultiple = a.repeat(b);
-                return (vMultiple.length() <= 40) ? vMultiple : vMultiple.substring(0, 39) + "...";
+                String sMultiple = a.repeat(b);
+                return (sMultiple.length() <= 40) ? sMultiple : sMultiple.substring(0, 39) + "...";
             }
         // При Умножении - повторяем заданное слово b раз и обрезаем результат на 40 символе
         },
+
 
         sDivision {
             public String action(String a, int b) {       //Деление
@@ -170,5 +201,7 @@ public class SCalc {
             }
         // При Делении - делим длину строки на b и получаем целое число знаков в результате
         };
+
     }
+ */
 }
