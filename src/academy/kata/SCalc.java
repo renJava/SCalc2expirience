@@ -2,6 +2,8 @@ package academy.kata;
 
 import java.util.Scanner;
 
+import static java.lang.System.*;
+
 //  "654Ъiёtgh" + "e47и4ergj"     //
 //    "ejrgЁ12" - "kegjЫ123"     //
 //    "ЫkegjЫ12Йы" - "kegjЫ12"     //
@@ -11,7 +13,7 @@ import java.util.Scanner;
 
 public class SCalc {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(in);
         String announcement = """
                 Вводите строчные операнды (не более 10 символов каждый) и строго в двойных кавычках.
                 Первый операнд - всегда строчный, не более 10 символов, например, "123456789Ё".
@@ -19,10 +21,10 @@ public class SCalc {
                 При сложении и вычитании, второй операнд - в кавычках
                 При умножении или делении второй операнд - натуральное число <=10 - без кавычек:
                 """;
-        System.out.println(announcement);
+        out.println(announcement);
         String expression = scanner.nextLine(); // Сканируем всю строку с выражением целиком в expression
         String validate = isValidate(expression);
-        System.out.println("\"" + validate + "\"");
+        out.println("\"" + validate + "\"");
     }
 
     //     Регулярное выражение для + и - : ^\s*\"[a-zA-Z_0-9а-яА-ЯёЁ]{1,10}\"\s*[+,-]\s*\"[a-zA-Z_0-9а-яА-ЯёЁ]{1,10}\"\s*
@@ -102,11 +104,11 @@ public class SCalc {
 
         if (validatePM || validateMD) {
             validateControlPrint = "Правильный ввод";
-            System.out.println("trimExpressionPM: " + trimExpressionPM + "trimExpressionMD: " + trimExpressionMD + "\n");
+            out.println("trimExpressionPM: " + trimExpressionPM + "trimExpressionMD: " + trimExpressionMD + "\n");
 
 
-            System.out.println("\nvalidatePM: " + validatePM + ", aPM: " + aPM + ", bPM: " + bPM + "\n");
-            System.out.println("\nvalidateMD: " + validateMD + ", aMD: " + aMD + ", bMD: " + bMD + "\n");
+            out.println("\nvalidatePM: " + validatePM + ", aPM: " + aPM + ", bPM: " + bPM + "\n");
+            out.println("\nvalidateMD: " + validateMD + ", aMD: " + aMD + ", bMD: " + bMD + "\n");
 
         }
 
