@@ -16,11 +16,14 @@ public class SCalc {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(in);
         String announcement = """
-            Вводите строчные операнды (не более 10 символов каждый) и строго в двойных кавычках.
-            Первый операнд - всегда строчный, не более 10 символов, например, "123456789Ё".
-            Второй - как первый, но только при сложении или вычитании.
-            При сложении и вычитании, второй операнд - в кавычках
-            При умножении или делении второй операнд - натуральное число <=10 - БЕЗ КАВЫЧЕК!!!:
+
+            Правила ввода:
+                                        
+        Вводите строчные операнды (не более 10 символов каждый). Начинайте ввод строго с двойных кавычек.
+        Первый операнд - всегда строчный, не более 10 символов, например, "jbBЪ5678Ёю".
+        Второй операнд, как первый, но только при сложении и вычитании (+,-), а второй операнд - также в кавычках.
+
+        При умножении и делении (*,/) второй операнд - натуральное число <=10 - БЕЗ КАВЫЧЕК!!!:
             """;
         out.println(announcement);
         String expression = scanner.nextLine(); // Сканируем всю строку с выражением целиком в expression
@@ -52,9 +55,12 @@ public class SCalc {
             validatePM = true;
 
             trimExpressionPM = expression.trim();
-
             lengthET = trimExpressionPM.length();
 
+            var cutTofFindQuote = trimExpressionPM.substring(1, lengthET-1);
+            var quotePosition0 = cutTofFindQuote.indexOf('\"');
+            var quotePosition1 = cutTofFindQuote.lastIndexOf('\"');
+/*
             int i = 0;
             int j = 0;
             while (i < (lengthET -1) && j <= 1) {        //Запоминаем позиции кавычек в теле выражения PM без краёв
@@ -63,9 +69,10 @@ public class SCalc {
                     quotePosition[j] = i; j++;
                 }
             }
+*/
 
-            aPM = trimExpressionPM.substring(1, quotePosition[0]);
-            bPM = trimExpressionPM.substring(quotePosition[1]+1, lengthET -1);
+            aPM = trimExpressionPM.substring(1, quotePosition0+1);
+            bPM = trimExpressionPM.substring(quotePosition1 + 2, lengthET -1);
 
             return  (trimExpressionPM.indexOf('+') > -1) ? PM.sPlus(aPM, bPM) : PM.sCut(aPM, bPM);
         }
@@ -83,6 +90,8 @@ public class SCalc {
             trimExpressionMD = expression.trim();
 
             lengthET = trimExpressionMD.length();
+//            var cutTofFindQuote = trimExpressionPM.substring(1);
+//            var quotePosition0 = cutTofFindQuote.indexOf('\"');
             int i = 0;
             int j = 0;
             while (i < (lengthET -1) && j <= 0) {        //Запоминаем позиции кавычек в теле выражения MD без краёв
@@ -115,14 +124,13 @@ public class SCalc {
     }
 
 
-
 //            Работающие методы в классах
 
     static class PM {
         static String sPlus(String a, String b) {        //Сложение
         return a + b;
         }
-        // При Сложении - Конкатенация строк
+    // При Сложении - Конкатенация строк
 
     static String sCut(String a, String b) {             //Вычитание
         var substBegin = a.indexOf(b);
@@ -132,13 +140,13 @@ public class SCalc {
     // При Вычетании - вырезаем найденное слово из строки или возвращаем уменьшаемое обратно
     }
 
+
     static class MD {
          static String sMultiple(String a, int b) {      //Умножение
             String sMultiple = a.repeat(b);
             return (sMultiple.length() <= 40) ? sMultiple : sMultiple.substring(0, 40) + "...";
          }
-        // При Умножении - повторяем заданное слово b раз и обрезаем результат после 40-го символа
-
+    // При Умножении - повторяем заданное слово b раз и обрезаем результат после 40-го символа
 
         static String sDivision(String a, int b) {       //Деление
             return (a.length() >= b) ? a.substring(0, a.length() / b) : "Делитель больше делимого";
