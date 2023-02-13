@@ -47,12 +47,12 @@ public class SCalc {
             var trimExpressionPM = expression.trim();
             lengthT = trimExpressionPM.length();
 
-            var cutTofFindQuotes = trimExpressionPM.substring(1, lengthT -1);
-            var quotePosition0 = cutTofFindQuotes.indexOf('\"');
-            var quotePosition1 = cutTofFindQuotes.lastIndexOf('\"');
+            var cutToFindQuotes = trimExpressionPM.substring(1, lengthT -1);
+            var quotePosition0 = cutToFindQuotes.indexOf('\"');
+            var quotePosition1 = cutToFindQuotes.lastIndexOf('\"');
 
-            var aPM = cutTofFindQuotes.substring(0, quotePosition0);
-            var bPM = cutTofFindQuotes.substring(quotePosition1 + 1, lengthT - 2);
+            var aPM = cutToFindQuotes.substring(0, quotePosition0);
+            var bPM = cutToFindQuotes.substring(quotePosition1 + 1, lengthT - 2);
 
             return  (trimExpressionPM.indexOf('+') > -1) ? PM.sPlus(aPM, bPM) : PM.sCut(aPM, bPM);
         }
@@ -67,11 +67,11 @@ public class SCalc {
             var trimExpressionMD = expression.trim();
             lengthT = trimExpressionMD.length();
 
-            var cutTofFindOneQuote = trimExpressionMD.substring(1);
-            var quotePosition0 = cutTofFindOneQuote.indexOf('\"');
+            var cutToFindOneQuote = trimExpressionMD.substring(1);
+            var quotePosition0 = cutToFindOneQuote.indexOf('\"');
 
-            var aMD = cutTofFindOneQuote.substring(0, quotePosition0);
-            var bMD = Integer.parseInt(cutTofFindOneQuote.substring(lengthT -3, lengthT-1).trim());
+            var aMD = cutToFindOneQuote.substring(0, quotePosition0);
+            var bMD = Integer.parseInt(cutToFindOneQuote.substring(lengthT -3, lengthT-1).trim());
 
             return  (trimExpressionMD.indexOf('*') > -1) ? MD.sMultiple(aMD, bMD) : MD.sDivision(aMD, bMD);
         }
