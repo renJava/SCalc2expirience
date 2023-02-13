@@ -10,6 +10,7 @@ import static java.lang.System.out;
 //    "ЫkegjЫ12Йы" - "kegjЫ12"    //
 //    "ehjrg12" *   9             //
 //      "e47и4ergj" / 10          //
+//      "47игrgЫЁё" / 2          //
 
 
 public class SCalc {
@@ -27,21 +28,12 @@ public class SCalc {
             """;
         out.println(announcement);
         String expression = scanner.nextLine(); // Сканируем всю строку с выражением целиком в expression
-        String validate = isValidate(expression);
-        out.println("\n\"" + validate + "\"");
+        String validateInOut = isValidate(expression);
+        out.println("\n\"" + validateInOut + "\"");
     }
 
     //    Задаем все переменные метода.
     public static String isValidate  (String expression) {
-//        boolean validatePM = false;
-//        boolean validateMD = false;
-//        String validateControlPrint;
-//        String trimExpressionPM = "";
-//        String trimExpressionMD = "";
-//        String aPM = "";
-//        String bPM = "";
-//        String aMD = "";
-//        int bMD;
         int lengthT;
 
 
@@ -59,9 +51,8 @@ public class SCalc {
             var quotePosition0 = cutTofFindQuotes.indexOf('\"');
             var quotePosition1 = cutTofFindQuotes.lastIndexOf('\"');
 
-            var aPM = trimExpressionPM.substring(1, quotePosition0+1);
-            var bPM = trimExpressionPM.substring(quotePosition1 + 2, lengthT -1);
-//            validatePM = true;
+            var aPM = cutTofFindQuotes.substring(0, quotePosition0);
+            var bPM = cutTofFindQuotes.substring(quotePosition1 + 1, lengthT - 2);
 
             return  (trimExpressionPM.indexOf('+') > -1) ? PM.sPlus(aPM, bPM) : PM.sCut(aPM, bPM);
         }
@@ -79,47 +70,33 @@ public class SCalc {
             var cutTofFindOneQuote = trimExpressionMD.substring(1);
             var quotePosition0 = cutTofFindOneQuote.indexOf('\"');
 
-            var aMD = trimExpressionMD.substring(1, quotePosition0+1);
-            var bMD = Integer.parseInt(trimExpressionMD.substring(lengthT -2, lengthT).trim());
-//            validateMD = true;
+            var aMD = cutTofFindOneQuote.substring(0, quotePosition0);
+            var bMD = Integer.parseInt(cutTofFindOneQuote.substring(lengthT -3, lengthT-1).trim());
 
             return  (trimExpressionMD.indexOf('*') > -1) ? MD.sMultiple(aMD, bMD) : MD.sDivision(aMD, bMD);
         }
 
 //                Отладка: контроль ввода и промежуточных вычислений:
-//        Основное содержимое оператора if выводится исключительно при неправильной работе логики программы.
-//        При правильной логики программы промежуточные выводы автоматически игнорируются
 
-
-/*
-        if (validatePM || validateMD) {
-            validateControlPrint = "Правильный ввод";
-            out.println("trimExpressionPM: " + trimExpressionPM + "trimExpressionMD: " + trimExpressionMD + "\n");
-
-                out.println("\nvalidatePM: " + validatePM + ", aPM: " + aPM + ", bPM: " + bPM + "\n");
-                out.println("\nvalidateMD: " + validateMD + ", aMD: " + aMD + ", bMD: " + bMD + "\n");
-        }
-*/
         return "!!!Некорректный ввод!!!";
 
     }
 
-
-//            Работающие методы в классах
+//            Методы в 2-х классах
 
    private static class PM {
         static String sPlus(String a, String b) {        //Сложение
-        return a + b;
+             return a + b;
         }
     // При Сложении - Конкатенация строк
 
-    static String sCut(String a, String b) {             //Вычитание
-        var substrBegin = a.indexOf(b);
-        return (substrBegin > -1) ? a.substring(0, substrBegin) +
-                a.substring(substrBegin + b.length()) : a;
-    }
+       static String sCut(String a, String b) {             //Вычитание
+            var substrBegin = a.indexOf(b);
+            return (substrBegin > -1) ? a.substring(0, substrBegin) +
+                    a.substring(substrBegin + b.length()) : a;
+       }
     // При Вычетании - вырезаем найденное слово из строки или возвращаем уменьшаемое обратно
-    }
+   }
 
 //          Блок умножения и деления
     private static class MD {
