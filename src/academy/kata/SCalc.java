@@ -10,6 +10,7 @@ import static java.lang.System.out;
 //    "ЫkegjЫ12Йы" - "kegjЫ12"    //
 //    "ehjrg12" *   9             //
 //      "e47и4ergj" / 10          //
+//      "e47и4ergj" / 2          //
 
 
 public class SCalc {
@@ -107,27 +108,27 @@ public class SCalc {
 
 //            Работающие методы в классах
 
-   private static class PM {
+    private static class PM {
         static String sPlus(String a, String b) {        //Сложение
-        return a + b;
+            return a + b;
         }
-    // При Сложении - Конкатенация строк
+        // При Сложении - Конкатенация строк
 
-    static String sCut(String a, String b) {             //Вычитание
-        var substrBegin = a.indexOf(b);
-        return (substrBegin > -1) ? a.substring(0, substrBegin) +
-                a.substring(substrBegin + b.length()) : a;
-    }
-    // При Вычетании - вырезаем найденное слово из строки или возвращаем уменьшаемое обратно
+        static String sCut(String a, String b) {             //Вычитание
+            var substrBegin = a.indexOf(b);
+            return (substrBegin > -1) ? a.substring(0, substrBegin) +
+                    a.substring(substrBegin + b.length()) : a;
+        }
+        // При Вычетании - вырезаем найденное слово из строки или возвращаем уменьшаемое обратно
     }
 
-//          Блок умножения и деления
+    //          Блок умножения и деления
     private static class MD {
-         static String sMultiple(String a, int b) {      //Умножение
+        static String sMultiple(String a, int b) {      //Умножение
             String sMultiple = a.repeat(b);
             return (sMultiple.length() <= 40) ? sMultiple : sMultiple.substring(0, 40) + "...";
-         }
-    // При Умножении - повторяем заданное слово b раз и обрезаем результат после 40-го символа
+        }
+        // При Умножении - повторяем заданное слово b раз и обрезаем результат после 40-го символа
 
         static String sDivision(String a, int b) {       //Деление
             return (a.length() >= b) ? a.substring(0, a.length() / b) : "Делитель больше делимого";
