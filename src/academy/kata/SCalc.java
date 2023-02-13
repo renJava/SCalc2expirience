@@ -84,11 +84,11 @@ public class SCalc {
 
 //            Методы в 2-х классах
 
-   private static class PM {
+    private static class PM {
         static String sPlus(String a, String b) {        //Сложение
              return a + b;
         }
-    // При Сложении - Конкатенация строк
+        // При Сложении - Конкатенация строк
 
        static String sCut(String a, String b) {             //Вычитание
             var substrBegin = a.indexOf(b);
@@ -98,18 +98,18 @@ public class SCalc {
     // При Вычетании - вырезаем найденное слово из строки или возвращаем уменьшаемое обратно
    }
 
-//          Блок умножения и деления
-    private static class MD {
-         static String sMultiple(String a, int b) {      //Умножение
+
+    //          Блок умножения и деления
+   private static class MD {
+        static String sMultiple(String a, int b) {      //Умножение
             String sMultiple = a.repeat(b);
             return (sMultiple.length() <= 40) ? sMultiple : sMultiple.substring(0, 40) + "...";
-         }
-    // При Умножении - повторяем заданное слово b раз и обрезаем результат после 40-го символа
+        }
+        // При Умножении - повторяем заданное слово b раз и обрезаем результат после 40-го символа
 
         static String sDivision(String a, int b) {       //Деление
             return (a.length() >= b) ? a.substring(0, a.length() / b) : "Делитель больше делимого";
         }
-    }
-
+   }
 }
 
