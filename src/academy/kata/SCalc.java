@@ -6,10 +6,10 @@ import static java.lang.System.in;
 import static java.lang.System.out;
 
 //  "654Ъiёtgh" + "e47и4ergj"     //
-//    "ejrgЁ12" - "kegjЫ123"     //
-//    "ЫkegjЫ12Йы" - "kegjЫ12"     //
-//    "ehjrg12" *   9           //
-//      "e47и4ergj" / 10       //
+//    "YejrgЁ1Ыi7" - "ejrgЁ1"     //
+//    "ЫkegjЫ12Йы" - "kegjЫ12"    //
+//    "ehjrg12" *   9             //
+//      "e47и4ergj" / 10          //
 
 
 public class SCalc {
@@ -33,17 +33,16 @@ public class SCalc {
 
     //    Задаем все переменные метода.
     public static String isValidate  (String expression) {
-        boolean validatePM;
-        boolean validateMD;
-        String validateControlPrint;
-        String trimExpressionPM = "";
-        String trimExpressionMD = "";
-        String aPM = "";
-        String bPM = "";
-        String aMD = "";
-        int bMD = 0;
-        int[] quotePosition = new int[3];
-        int lengthET;
+//        boolean validatePM = false;
+//        boolean validateMD = false;
+//        String validateControlPrint;
+//        String trimExpressionPM = "";
+//        String trimExpressionMD = "";
+//        String aPM = "";
+//        String bPM = "";
+//        String aMD = "";
+//        int bMD;
+        int lengthT;
 
 
 //                                      Сложение и вычитание
@@ -52,32 +51,20 @@ public class SCalc {
 
         if (expression.matches(
                 "^ *\"[a-zA-Z_0-9а-яА-ЯёЁ]{1,10}\" *[+,-] *\"[a-zA-Z_0-9а-яА-ЯёЁ]{1,10}\" *")) {
-            validatePM = true;
 
-            trimExpressionPM = expression.trim();
-            lengthET = trimExpressionPM.length();
+            var trimExpressionPM = expression.trim();
+            lengthT = trimExpressionPM.length();
 
-            var cutTofFindQuote = trimExpressionPM.substring(1, lengthET-1);
-            var quotePosition0 = cutTofFindQuote.indexOf('\"');
-            var quotePosition1 = cutTofFindQuote.lastIndexOf('\"');
-/*
-            int i = 0;
-            int j = 0;
-            while (i < (lengthET -1) && j <= 1) {        //Запоминаем позиции кавычек в теле выражения PM без краёв
-                i++;
-                if (trimExpressionPM.charAt(i) == '\"') {
-                    quotePosition[j] = i; j++;
-                }
-            }
-*/
+            var cutTofFindQuotes = trimExpressionPM.substring(1, lengthT -1);
+            var quotePosition0 = cutTofFindQuotes.indexOf('\"');
+            var quotePosition1 = cutTofFindQuotes.lastIndexOf('\"');
 
-            aPM = trimExpressionPM.substring(1, quotePosition0+1);
-            bPM = trimExpressionPM.substring(quotePosition1 + 2, lengthET -1);
+            var aPM = trimExpressionPM.substring(1, quotePosition0+1);
+            var bPM = trimExpressionPM.substring(quotePosition1 + 2, lengthT -1);
+//            validatePM = true;
 
             return  (trimExpressionPM.indexOf('+') > -1) ? PM.sPlus(aPM, bPM) : PM.sCut(aPM, bPM);
         }
-        else validatePM = false;
-
 
 //                                      Умножение и деление
 
@@ -85,32 +72,26 @@ public class SCalc {
 
         if (expression.matches(
                 "^ *\"[a-zA-Z_0-9а-яА-ЯёЁ]{1,10}\" *[*,/] *(?:[1-9]|10) *$")) {
-            validateMD = true;
 
-            trimExpressionMD = expression.trim();
+            var trimExpressionMD = expression.trim();
+            lengthT = trimExpressionMD.length();
 
-            lengthET = trimExpressionMD.length();
-//            var cutTofFindQuote = trimExpressionPM.substring(1);
-//            var quotePosition0 = cutTofFindQuote.indexOf('\"');
-            int i = 0;
-            int j = 0;
-            while (i < (lengthET -1) && j <= 0) {        //Запоминаем позиции кавычек в теле выражения MD без краёв
-                i++;
-                if (trimExpressionMD.charAt(i) == '\"') {
-                    quotePosition[j] = i; j++;
-                }
-            }
-            aMD = trimExpressionMD.substring(1, quotePosition[0]);
-            bMD = Integer.parseInt(trimExpressionMD.substring(lengthET -2, lengthET).trim());
+            var cutTofFindOneQuote = trimExpressionMD.substring(1);
+            var quotePosition0 = cutTofFindOneQuote.indexOf('\"');
+
+            var aMD = trimExpressionMD.substring(1, quotePosition0+1);
+            var bMD = Integer.parseInt(trimExpressionMD.substring(lengthT -2, lengthT).trim());
+//            validateMD = true;
 
             return  (trimExpressionMD.indexOf('*') > -1) ? MD.sMultiple(aMD, bMD) : MD.sDivision(aMD, bMD);
-
         }
-        else validateMD = false;
-
 
 //                Отладка: контроль ввода и промежуточных вычислений:
+//        Основное содержимое оператора if выводится исключительно при неправильной работе логики программы.
+//        При правильной логики программы промежуточные выводы автоматически игнорируются
 
+
+/*
         if (validatePM || validateMD) {
             validateControlPrint = "Правильный ввод";
             out.println("trimExpressionPM: " + trimExpressionPM + "trimExpressionMD: " + trimExpressionMD + "\n");
@@ -118,30 +99,30 @@ public class SCalc {
                 out.println("\nvalidatePM: " + validatePM + ", aPM: " + aPM + ", bPM: " + bPM + "\n");
                 out.println("\nvalidateMD: " + validateMD + ", aMD: " + aMD + ", bMD: " + bMD + "\n");
         }
-        else validateControlPrint = "!!!Некорректный ввод!!!";
+*/
+        return "!!!Некорректный ввод!!!";
 
-    return validateControlPrint;
     }
 
 
 //            Работающие методы в классах
 
-    static class PM {
+   private static class PM {
         static String sPlus(String a, String b) {        //Сложение
         return a + b;
         }
     // При Сложении - Конкатенация строк
 
     static String sCut(String a, String b) {             //Вычитание
-        var substBegin = a.indexOf(b);
-        return (substBegin > -1) ? a.substring(0, substBegin) +
-                a.substring(substBegin + b.length()) : a;
+        var substrBegin = a.indexOf(b);
+        return (substrBegin > -1) ? a.substring(0, substrBegin) +
+                a.substring(substrBegin + b.length()) : a;
     }
     // При Вычетании - вырезаем найденное слово из строки или возвращаем уменьшаемое обратно
     }
 
-
-    static class MD {
+//          Блок умножения и деления
+    private static class MD {
          static String sMultiple(String a, int b) {      //Умножение
             String sMultiple = a.repeat(b);
             return (sMultiple.length() <= 40) ? sMultiple : sMultiple.substring(0, 40) + "...";
