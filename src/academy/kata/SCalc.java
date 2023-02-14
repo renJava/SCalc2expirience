@@ -56,9 +56,9 @@ public class SCalc {
             var trimExpressionPM = expression.trim();
             lengthT = trimExpressionPM.length();
 
-            var cutTofFindQuotes = trimExpressionPM.substring(1, lengthT -1);
-            var quotePosition0 = cutTofFindQuotes.indexOf('\"');
-            var quotePosition1 = cutTofFindQuotes.lastIndexOf('\"');
+            var cutToFindQuotes = trimExpressionPM.substring(1, lengthT -1);
+            var quotePosition0 = cutToFindQuotes.indexOf('\"');
+            var quotePosition1 = cutToFindQuotes.lastIndexOf('\"');
 
             var aPM = trimExpressionPM.substring(1, quotePosition0+1);
             var bPM = trimExpressionPM.substring(quotePosition1 + 2, lengthT -1);
@@ -77,8 +77,8 @@ public class SCalc {
             var trimExpressionMD = expression.trim();
             lengthT = trimExpressionMD.length();
 
-            var cutTofFindOneQuote = trimExpressionMD.substring(1);
-            var quotePosition0 = cutTofFindOneQuote.indexOf('\"');
+            var cutToFindOneQuote = trimExpressionMD.substring(1);
+            var quotePosition0 = cutToFindOneQuote.indexOf('\"');
 
             var aMD = trimExpressionMD.substring(1, quotePosition0+1);
             var bMD = Integer.parseInt(trimExpressionMD.substring(lengthT -2, lengthT).trim());
